@@ -1,0 +1,24 @@
+host: localhost
+port: 3306
+user: user
+passwd : passwd
+Db : 
+    a :
+        - a1
+        - a2
+        - a3
+        - a4
+    b : 
+        - b1
+        - b2
+        - b3
+        - b4
+        - b5
+
+Verbose : true
+PackageName : PackageName
+StructName : StructName
+JSONAnnotation : true
+GormAnnotation : true
+GureguTypes : true
+TargetFile : TargetFile
