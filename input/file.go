@@ -18,7 +18,7 @@ func loadConfig(filePath string) {
 	*Flags.Port = viper.GetInt("port")
 	*Flags.User = viper.GetString("user")
 	*Flags.Passwd = viper.GetString("passwd")
-	dbMap := viper.GetStringMapStringSlice("Db")
+	dbMap := viper.GetStringMapStringSlice("DbMap")
 	Flags.DbMap = &dbMap
 	*Flags.Table = viper.GetString("Table")
 	*Flags.Verbose = viper.GetBool("Verbose")

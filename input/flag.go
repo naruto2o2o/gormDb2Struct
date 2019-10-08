@@ -3,6 +3,7 @@ package input
 import (
 	"fmt"
 	"log"
+	"os"
 	"reflect"
 	"strconv"
 	"strings"
@@ -12,7 +13,7 @@ import (
 )
 
 // Flags 参数结构体
-var Flags flag
+var Flags Flag
 
 // ListenFlag 监听flag
 func ListenFlag() {
@@ -27,7 +28,7 @@ func ListenFlag() {
 	goopt.Parse(nil)
 }
 
-func (f *flag) dealTag() error {
+func (f *Flag) dealTag() error {
 	fValue := reflect.ValueOf(f)
 	fType := reflect.TypeOf(f)
 
@@ -70,7 +71,7 @@ func (f *flag) dealTag() error {
 }
 
 // ValidateFlags 验证参数
-func (f *flag) ValidateFlags() {
+func (f *Flag) ValidateFlags() {
 
 	if *f.ConfigFile != "" {
 		loadConfig(*f.ConfigFile)
@@ -92,7 +93,7 @@ func (f *flag) ValidateFlags() {
 		log.Fatal("Db是必传参数")
 	}
 
-	if len(*f.DbMap) > 0 && (*f.Db != "" && *f.Table != "") {
+	if f.DbMap != nil && len(*f.DbMap) > 0 && (*f.Db != "" && *f.Table != "") {
 		log.Fatal("不可以在命令中与配置文件中同时指定db")
 	}
 
@@ -110,4 +111,30 @@ func (f *flag) ValidateFlags() {
 	if *f.Verbose {
 		fmt.Println("正在连接mysqlserver " + *f.Host + ":" + strconv.Itoa(*f.Port))
 	}
+
+	if *f.TargetFile == "" {
+		*f.TargetFile = "./"
+	} else {
+		ff, err := PathExists(*f.TargetFile)
+		if err != nil {
+			fmt.Println("输出路径错误:" + err.Error())
+		}
+
+		if !ff {
+			fmt.Println("输出路径错误:" + "路径不存在")
+
+		}
+	}
+}
+
+// PathExists 检测文件是否存在
+func PathExists(path string) (bool, error) {
+	_, err := os.Stat(path)
+	if err == nil {
+		return true, nil
+	}
+	if os.IsNotExist(err) {
+		return false, nil
+	}
+	return false, err
 }

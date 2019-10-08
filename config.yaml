@@ -1,24 +1,23 @@
-host: localhost
+host: 10.211.55.6
 port: 3306
-user: user
-passwd : passwd
-Db : 
-    a :
-        - a1
-        - a2
-        - a3
-        - a4
-    b : 
-        - b1
-        - b2
-        - b3
-        - b4
-        - b5
-
+user: jinzhiwen
+passwd : aa942236
+DbMap : 
+      emoji :
+          - e_emoji
+          - t_ad_item
+      emoji2 : 
+          - t_abnormal_seller
+      #     - a3
+      #     - a4
+      # b : 
+      #     - b1
+      #     - b2
+      #     - b3
+      #     - b4
+      #     - b5
 Verbose : true
-PackageName : PackageName
-StructName : StructName
 JSONAnnotation : true
 GormAnnotation : true
 GureguTypes : true
-TargetFile : TargetFile
+TargetFile : ./

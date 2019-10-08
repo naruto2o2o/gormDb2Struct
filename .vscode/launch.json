@@ -11,8 +11,9 @@
             "mode": "debug",
             "program": "${workspaceFolder}",
             "args": [
-                "-c",
-                "./config.yaml"
+                "-u", "jinzhiwen" ,"-H" ,"10.211.55.6" ,"-d" ,"emoji" ,"-t" ,"e_emoji" ,"-p" ,"aa942236"
+                // "-c",
+                // "./config.yaml"
             ]
         }
     ]

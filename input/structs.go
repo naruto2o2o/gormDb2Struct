@@ -1,7 +1,7 @@
 package input
 
-// flag 参数集合
-type flag struct {
+// Flag 参数集合
+type Flag struct {
 	ConfigFile     *string              `commands:"-c,--config" tag:"配置文件路径(指定此参数时将其他参数将忽略所有配合来源于配置文件)"`
 	Host           *string              `commands:"-H,--host" def:"127.0.0.1" tag:"数据库的host"`
 	Port           *int                 `commands:"--port" def:"3306" tag:"数据库端口"`
