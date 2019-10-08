@@ -1,6 +1,7 @@
 # gormDb2Struct
 
 将数据库表结构映射为gorm结构体
+目前只支持mysql
 
 ## 使用
 
