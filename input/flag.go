@@ -24,7 +24,7 @@ func ListenFlag() {
 		return
 	}
 	goopt.Version = "1.0.0"
-	goopt.Summary = " [-H] [--port] -d -t -u -p  --package pkgName --struct structName --database databaseName --table tableName"
+	goopt.Summary = " [-H] [--port] -d dbname -t tablename -u usename -p"
 	goopt.Parse(nil)
 }
 
