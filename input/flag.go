@@ -25,7 +25,7 @@ func ListenFlag() {
 	}
 	goopt.Version = "1.0.0"
 	goopt.Summary = " [-H] [--port] -d dbname -t tablename -u usename -p"
-	goopt.Parse(nil)
+	goopt.Parse()
 }
 
 func (f *Flag) dealTag() error {

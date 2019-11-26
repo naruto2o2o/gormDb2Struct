@@ -55,7 +55,7 @@ func GetColumnsFromMysqlTable(db *sql.DB, dbName, tableName string) (*map[string
 }
 
 // Generate go struct entries for a map[string]interface{} structure
-func generateMysqlTypes(obj map[string]map[string]string, depth int, jsonAnnotation bool, gormAnnotation bool, gureguTypes bool, hasTime *bool) string {
+func generateMysqlTypes(obj map[string]map[string]string, depth int, jsonAnnotation bool, gormAnnotation bool, gureguTypes bool, hasTime *bool, hasSQLNull *bool) string {
 	structure := "struct {"
 
 	keys := make([]string, 0, len(obj))
@@ -80,7 +80,7 @@ func generateMysqlTypes(obj map[string]map[string]string, depth int, jsonAnnotat
 		var valueType string
 		// If the guregu (https://github.com/guregu/null) CLI option is passed use its types, otherwise use go's sql.NullX
 
-		valueType = mysqlTypeToGoType(mysqlType["value"], nullable, gureguTypes, hasTime)
+		valueType = mysqlTypeToGoType(mysqlType["value"], nullable, gureguTypes, hasTime, hasSQLNull)
 
 		fieldName := fmtFieldName(stringifyFirstChar(key))
 		var annotations []string
@@ -115,13 +115,15 @@ func generateMysqlTypes(obj map[string]map[string]string, depth int, jsonAnnotat
 }
 
 // mysqlTypeToGoType converts the mysql types to go compatible sql.Nullable (https://golang.org/pkg/database/sql/) types
-func mysqlTypeToGoType(mysqlType string, nullable bool, gureguTypes bool, hasTime *bool) string {
+func mysqlTypeToGoType(mysqlType string, nullable bool, gureguTypes bool, hasTime *bool, hasSQLNull *bool) string {
 	switch mysqlType {
 	case "tinyint", "int", "smallint", "mediumint":
 		if nullable {
 			if gureguTypes {
 				return gureguNullInt
 			}
+
+			*hasSQLNull = true
 			return sqlNullInt
 		}
 		return golangInt
@@ -130,6 +132,8 @@ func mysqlTypeToGoType(mysqlType string, nullable bool, gureguTypes bool, hasTim
 			if gureguTypes {
 				return gureguNullInt
 			}
+			*hasSQLNull = true
+
 			return sqlNullInt
 		}
 		return golangInt64
@@ -138,6 +142,8 @@ func mysqlTypeToGoType(mysqlType string, nullable bool, gureguTypes bool, hasTim
 			if gureguTypes {
 				return gureguNullString
 			}
+			*hasSQLNull = true
+
 			return sqlNullString
 		}
 		return "string"
@@ -153,6 +159,9 @@ func mysqlTypeToGoType(mysqlType string, nullable bool, gureguTypes bool, hasTim
 			if gureguTypes {
 				return gureguNullFloat
 			}
+
+			*hasSQLNull = true
+
 			return sqlNullFloat
 		}
 		return golangFloat64
@@ -161,6 +170,8 @@ func mysqlTypeToGoType(mysqlType string, nullable bool, gureguTypes bool, hasTim
 			if gureguTypes {
 				return gureguNullFloat
 			}
+			*hasSQLNull = true
+
 			return sqlNullFloat
 		}
 		return golangFloat32

@@ -84,15 +84,21 @@ var Debug = false
 func Generate(columnTypes map[string]map[string]string, tableName string, tableCom string, structName string, pkgName string, jsonAnnotation bool, gormAnnotation bool, gureguTypes bool) ([]byte, error) {
 	var dbTypes string
 	var hasTime bool
-	dbTypes = generateMysqlTypes(columnTypes, 0, jsonAnnotation, gormAnnotation, gureguTypes, &hasTime)
+	var hasSQLNull bool
+	dbTypes = generateMysqlTypes(columnTypes, 0, jsonAnnotation, gormAnnotation, gureguTypes, &hasTime, &hasSQLNull)
 
 	var importTime string
 
 	if hasTime {
-		importTime = "import \"time\""
+		importTime = "import (\"time\""
 	} else {
 		importTime = ""
 	}
+
+	if hasSQLNull {
+		importTime += "\n \"database/sql\" \n )"
+	}
+
 	src := fmt.Sprintf("package %s\n%s\n%s\n%s\ntype %s %s}",
 		pkgName,
 		importTime,
