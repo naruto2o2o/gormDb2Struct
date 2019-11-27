@@ -91,12 +91,13 @@ func Generate(columnTypes map[string]map[string]string, tableName string, tableC
 
 	if hasTime {
 		importTime = "import (\"time\""
+		if hasSQLNull {
+			importTime += "\n \"database/sql\" \n )"
+		}
 	} else {
-		importTime = ""
-	}
-
-	if hasSQLNull {
-		importTime += "\n \"database/sql\" \n )"
+		if hasSQLNull {
+			importTime += "import (\"database/sql\" \n )"
+		}
 	}
 
 	src := fmt.Sprintf("package %s\n%s\n%s\n%s\ntype %s %s}",
