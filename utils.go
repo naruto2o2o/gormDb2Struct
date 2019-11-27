@@ -93,6 +93,8 @@ func Generate(columnTypes map[string]map[string]string, tableName string, tableC
 		importTime = "import (\"time\""
 		if hasSQLNull {
 			importTime += "\n \"database/sql\" \n )"
+		} else {
+			importTime += ")"
 		}
 	} else {
 		if hasSQLNull {
