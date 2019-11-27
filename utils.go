@@ -111,7 +111,7 @@ func Generate(columnTypes map[string]map[string]string, tableName string, tableC
 		dbTypes)
 
 	if gormAnnotation == true {
-		tableNameFunc := "func (" + strings.ToLower(string(structName[0])) + " *" + structName + ") TableName() string {\n" +
+		tableNameFunc := "// TableName GORMTableName \n func (" + strings.ToLower(string(structName[0])) + " *" + structName + ") TableName() string {\n" +
 			"	return \"" + tableName + "\"" +
 			"}"
 		src = fmt.Sprintf("%s\n%s", src, tableNameFunc)
