@@ -103,7 +103,7 @@ func generateMysqlTypes(obj map[string]map[string]string, depth int, jsonAnnotat
 		}
 
 		if mysqlType["columnComment"] != "" {
-			structure += " // " + mysqlType["columnComment"]
+			structure += " // " + strings.ReplaceAll(mysqlType["columnComment"], "\n", "")
 		}
 
 		if len(keys)-1 == k {

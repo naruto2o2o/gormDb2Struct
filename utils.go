@@ -106,7 +106,7 @@ func Generate(columnTypes map[string]map[string]string, tableName string, tableC
 		pkgName,
 		importTime,
 		fmt.Sprintf("// %s table %s", structName, tableName),
-		"// "+tableCom,
+		"// "+strings.ReplaceAll("\n", ";", tableCom),
 		structName,
 		dbTypes)
 
